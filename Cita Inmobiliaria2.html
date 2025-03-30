@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Actividades - Inmobiliaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h2 class="text-2xl font-bold text-blue-700 text-center mb-4">Registro de Actividades</h2>
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+            <form id="activityForm">
+                <label class="block text-gray-700">Fecha:</label>
+                <input type="date" id="fecha" class="input mb-3 w-full" required>
+                
+                <label class="block text-gray-700">Clave:</label>
+                <input type="text" id="clave" class="input mb-3 w-full" required>
+                
+                <label class="block text-gray-700">Propiedad:</label>
+                <select id="propiedad" class="input mb-3 w-full">
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="Casa habitación">Casa habitación</option>
+                    <option value="Departamento">Departamento</option>
+                    <option value="Oficina">Oficina</option>
+                </select>
+                
+                <label class="block text-gray-700">Precio:</label>
+                <input type="text" id="precio" class="input mb-3 w-full" required placeholder="$0.00">
+                
+                <label class="block text-gray-700">Fuente:</label>
+                <select id="fuente" class="input mb-3 w-full">
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="Lona">Lona</option>
+                    <option value="Portales">Portales</option>
+                    <option value="Redes Sociales">Redes Sociales</option>
+                    <option value="Referido">Referido</option>
+                </select>
+                
+                <label class="block text-gray-700">Nombre del Cliente:</label>
+                <input type="text" id="clienteNombre" class="input mb-3 w-full" required>
+                
+                <label class="block text-gray-700">Apellido del Cliente:</label>
+                <input type="text" id="clienteApellido" class="input mb-3 w-full" required>
+                
+                <label class="block text-gray-700">Teléfono:</label>
+                <input type="tel" id="telefono" class="input mb-3 w-full" required pattern="[0-9]{10}">
+                
+                <label class="block text-gray-700">Correo:</label>
+                <input type="email" id="correo" class="input mb-3 w-full" required>
+                
+                <label class="block text-gray-700">Requerimiento:</label>
+                <textarea id="requerimiento" class="input mb-3 w-full" required></textarea>
+                
+                <button type="submit" class="button is-primary w-full">Registrar Actividad</button>
+            </form>
+            <div id="message" class="mt-4 text-center text-sm font-semibold"></div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('precio').addEventListener('blur', function() {
+            let value = this.value.replace(/[^0-9]/g, "");
+            if (value) {
+                let numericValue = parseFloat(value);
+                if (isNaN(numericValue)) {
+                    this.value = "$0.00";
+                } else {
+                    this.value = "$" + numericValue.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                }
+            } else {
+                this.value = "$0.00";
+            }
+        });
+
+        document.getElementById('activityForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fecha = document.getElementById('fecha').value;
+            const clave = document.getElementById('clave').value;
+            const propiedad = document.getElementById('propiedad').value;
+            const precio = document.getElementById('precio').value;
+            const fuente = document.getElementById('fuente').value;
+            const clienteNombre = document.getElementById('clienteNombre').value;
+            const clienteApellido = document.getElementById('clienteApellido').value;
+            const telefono = document.getElementById('telefono').value;
+            const correo = document.getElementById('correo').value;
+            const requerimiento = document.getElementById('requerimiento').value;
+            const messageDiv = document.getElementById('message');
+            
+            if (!fecha || !clave || !propiedad || !precio || !fuente || !clienteNombre || !clienteApellido || !telefono || !correo || !requerimiento) {
+                messageDiv.textContent = "Por favor, completa todos los campos.";
+                messageDiv.classList.add("text-red-600");
+                return;
+            }
+            
+            messageDiv.textContent = "Registro exitoso. ¡Nos pondremos en contacto contigo pronto!";
+            messageDiv.classList.remove("text-red-600");
+            messageDiv.classList.add("text-green-600");
+            
+            this.reset();
+        });
+    </script>
+</body>
+</html>
